@@ -1,0 +1,116 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+body {
+	font-family: 'Roboto';
+	background-color: black;
+}
+#output {
+	margin-top: 5%;
+	margin-left: auto;
+	margin-right: auto;
+	color: white;
+	width: 18em;
+	font-size: 30px;
+}
+.aNum:hover{
+	background-color: rgba(56, 56, 56, 0.377);
+}
+.notNum:hover{
+	background-color: rgba(56, 56, 56, 0.377);
+}
+#ac {
+	margin: auto;
+	grid-area: ac;
+}
+.aNum{
+	transition: 1s;
+	padding: 45%;
+}
+#backspace {
+	margin: auto;
+	grid-area: backspace;
+}
+#modulo {
+	margin: auto;
+	grid-area: modulo;
+}
+#division {
+	margin: auto;
+	grid-area: division;
+}
+#7 {
+	grid-area: 7;
+}
+#8 {
+	grid-area: 8;
+}
+#9 {
+	grid-area: 9;
+}
+#multiply {
+	margin: auto;
+	grid-area: multiply;
+}
+#4 {
+	grid-area: 4;
+}
+#5 {
+	grid-area: 5;
+}
+#6 {
+	grid-area: 6;
+}
+#minus {
+	margin: auto;
+	grid-area: minus;
+}
+#1 {
+	grid-area: 1;
+}
+#2 {
+	grid-area: 2;
+}
+#3 {
+	grid-area: 3;
+}
+#plus {
+	margin: auto;
+	grid-area: plus;
+}
+#empty {
+	margin: auto;
+	grid-area: empty;
+}
+#0 {
+	grid-area: 0;
+}
+#comma {
+	margin: auto;
+	grid-area: comma;
+}
+#operate {
+	margin: auto;
+	grid-area: operate;
+}
+#inputButtons {
+	color: white;
+	width: 20em;
+	height: 30em;
+	max-width: 20em;
+	max-height: 30em;
+	display: grid;
+	grid-template-columns: repeat(4, 25%);
+	grid-template-areas:
+		'ac backspace modulo division'
+		'7 8 9 multiply'
+		'4 5 6 minus'
+		'3 2 1 plus'
+		'empty 0 comma operate';
+	grid-template-rows: repeat(5, auto);
+	margin: auto;
+	font-size: 24px;
+}
+.notNum {
+	padding: 2em;
+	transition: 1s;
+	color: rgb(255, 157, 0);
+}
