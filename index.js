@@ -2,102 +2,88 @@ const buttons = Array.from(document.querySelectorAll('#inputButtons'));
 const actualNums = document.querySelector('#actualText');
 const finalResult = document.querySelector('#result');
 buttons.forEach((a) => {
-	a.addEventListener('click', identifyButton);
+    a.addEventListener('click', identifyButton);
 });
-let operation = [];
-function operation(nums, operators) {}
-function sum(a, b) {}
-function subtract(a, b) {}
-function multiply(a, b) {}
-function divide(a, b) {}
-function modulo(a, b) {}
+let firstNum = '';
+let secondNum = '';
+let operator = '';
+let writeOperator = false;
 function identifyButton(e) {
-	const eventTargetValue = e.target.id;
-	switch (eventTargetValue) {
-		case 'ac': {
-			clearNums();
-			break;
-		}
-		case 'backspace': {
-			actualNums.textContent = actualNums.textContent.slice(
-				0,
-				actualNums.textContent.length - 1
-			);
-			break;
-		}
-		case 'modulo': {
-			operation.push('%');
-			break;
-		}
-		case 'division': {
-			operation.push('/');
-			break;
-		}
-		case 'seven': {
-			operation.push(7);
-			break;
-		}
-		case 'eight': {
-			operation.push(8);
-			break;
-		}
-		case 'nine': {
-			operation.push(9);
-			break;
-		}
-		case 'multiply': {
-			operation.push('*');
-			break;
-		}
-		case 'four': {
-			operation.push(4);
-			break;
-		}
-		case 'five': {
-			operation.push(5);
-			break;
-		}
-		case 'six': {
-			operation.push(6);
-			break;
-		}
-		case 'minus': {
-			operation.push('-');
-			break;
-		}
-		case 'one': {
-			operation.push(1);
-			break;
-		}
-		case 'two': {
-			operation.push(2);
-			break;
-		}
-		case 'three': {
-			operation.push(3);
-			break;
-		}
-		case 'plus': {
-			operation.push('+');
-			break;
-		}
-		case 'cero': {
-			operation.push(0);
-			break;
-		}
-		case 'comma': {
-			operation.push(',');
-			break;
-		}
-		case 'operate': {
-			break;
-		}
-	}
+    const eventTargetValue = e.target.textContent;
+    console.log(eventTargetValue);
+    if(eventTargetValue === '=') {
+        console.log(firstNum,secondNum,operator);
+        finalResult.textContent = operate(+firstNum,+secondNum,operator).toString();
+        firstNum = finalResult.textContent;
+        secondNum = '';
+        writeOperator = false;
+        return;
+    }
+    if(eventTargetValue === 'C'){
+        return actualNums.textContent = actualNums.textContent.slice(0,actualNums.textContent.length-1);
+    }else if(eventTargetValue === 'AC') return clearNums();
+    if((eventTargetValue === '/' || eventTargetValue === '%' || eventTargetValue === 'X'|| eventTargetValue === '+' || eventTargetValue === '-') && writeOperator === true){
+        console.log('Im in');
+        console.log(firstNum);
+        firstNum = operate(+firstNum,+secondNum,operator).toString();
+        operator = eventTargetValue;
+        secondNum = '';
+        writeOperator = true;
+    }
+    else if(eventTargetValue === '/' || eventTargetValue === '%' || eventTargetValue === 'X'|| eventTargetValue === '+' || eventTargetValue === '-'){
+        operator = eventTargetValue;
+        writeOperator = true;
+    }else if(!writeOperator){
+        firstNum += eventTargetValue;
+    }else secondNum += eventTargetValue;
+    actualNums.textContent += eventTargetValue;
+    console.log(firstNum,secondNum,operator,writeOperator);
+}
+function operate(firstNum,secondNum,operator){
+    switch (operator){
+        case '/':{
+            return divide(firstNum,secondNum);
+            break;
+        }
+        case '%':{
+            return modulo(firstNum,secondNum);
+            break;
+        }
+        case '+':{
+            return sum(firstNum,secondNum);
+            break;
+        }
+        case '-':{
+            return substract(firstNum,secondNum);
+            break;
+        }
+        case 'X':{
+            return multiply(firstNum,secondNum);
+            break;
+        }
+    }
+}
+function sum(a,b){
+    return a + b;
+}
+function substract(a,b){
+    return a - b;
+}
+function divide(a,b){
+    if(a === 0 || b === 0 ) return 'SYNTAX ERROR';
+    return Math.abs(a/b);
+}
+function multiply(a,b){
+    return a*b;
+}
+function modulo(a,b){
+    return a%b;
 }
 function clearNums() {
-	firstNum = 0;
-	secondNum = 0;
-	operator = '';
-	nextNums = [];
-	nextOperators = [];
+    firstNum = '';
+    secondNum = '';
+    operator = '';
+    writeOperator = false;
+    actualNums.textContent = '0';
+    finalResult.textContent = '0';
 }
