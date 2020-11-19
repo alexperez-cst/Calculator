@@ -21,8 +21,12 @@ body {
 	margin: auto;
 	grid-area: ac;
 }
+#actualText{
+	font-size: 25px;
+	color: rgba(255, 255, 255, 0.637);
+}
 .aNum{
-	transition: 1s;
+	transition: 0.5s;
 	padding: 45%;
 }
 #backspace {
@@ -111,6 +115,6 @@ body {
 }
 .notNum {
 	padding: 2em;
-	transition: 1s;
+	transition: 0.5s;
 	color: rgb(255, 157, 0);
 }
