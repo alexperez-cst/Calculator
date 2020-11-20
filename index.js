@@ -12,11 +12,18 @@ function identifyButton(e) {
 	const eventTargetValue = e.target.textContent;
 	console.log(eventTargetValue);
 	if (eventTargetValue === '=') {
+		if (!secondNum || !firstNum) {
+			finalResult.textContent = firstNum ?? 0;
+			return;
+		}
 		console.log(firstNum, secondNum, operator);
-		finalResult.textContent = operate(+firstNum, +secondNum, operator).toString();
+		finalResult.textContent = operate(+firstNum, +secondNum, operator);
 		firstNum = finalResult.textContent;
 		secondNum = '';
 		writeOperator = false;
+		return;
+	}
+	if (eventTargetValue === '.' && actualNums.textContent.includes('.')) {
 		return;
 	}
 	if (eventTargetValue === 'C') {
@@ -24,28 +31,17 @@ function identifyButton(e) {
 			0,
 			actualNums.textContent.length - 1
 		));
-	} else if (eventTargetValue === 'AC') return clearNums();
-	if (
-		(eventTargetValue === '/' ||
-			eventTargetValue === '%' ||
-			eventTargetValue === 'X' ||
-			eventTargetValue === '+' ||
-			eventTargetValue === '-') &&
-		writeOperator === true
-	) {
+	} else if (eventTargetValue === 'AC') {
+		return clearNums();
+	}
+	if (isOperator(eventTargetValue) && writeOperator === true) {
 		console.log('Im in');
 		console.log(firstNum);
-		firstNum = operate(+firstNum, +secondNum, operator).toString();
+		firstNum = operate(+firstNum, +secondNum, operator);
 		operator = eventTargetValue;
 		secondNum = '';
 		writeOperator = true;
-	} else if (
-		eventTargetValue === '/' ||
-		eventTargetValue === '%' ||
-		eventTargetValue === 'X' ||
-		eventTargetValue === '+' ||
-		eventTargetValue === '-'
-	) {
+	} else if (isOperator(eventTargetValue)) {
 		operator = eventTargetValue;
 		writeOperator = true;
 	} else if (!writeOperator) {
@@ -66,7 +62,7 @@ function operate(firstNum, secondNum, operator) {
 			return sum(firstNum, secondNum);
 		}
 		case '-': {
-			return substract(firstNum, secondNum);
+			return subtract(firstNum, secondNum);
 		}
 		case 'X': {
 			return multiply(firstNum, secondNum);
@@ -76,7 +72,7 @@ function operate(firstNum, secondNum, operator) {
 function sum(a, b) {
 	return a + b;
 }
-function substract(a, b) {
+function subtract(a, b) {
 	return a - b;
 }
 function divide(a, b) {
@@ -96,4 +92,13 @@ function clearNums() {
 	writeOperator = false;
 	actualNums.textContent = '0';
 	finalResult.textContent = '0';
+}
+function isOperator(value) {
+	return (
+		value === '/' ||
+		value === '%' ||
+		value === 'X' ||
+		value === '+' ||
+		value === '-'
+	);
 }

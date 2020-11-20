@@ -11,21 +11,23 @@ body {
 	width: 18em;
 	font-size: 30px;
 }
-.aNum:hover{
-	background-color: rgba(56, 56, 56, 0.377);
+.aNum:hover {
+	text-shadow: 3px 3px rgba(128, 128, 128, 0.555);
+	font-size: 24.5px;
 }
-.notNum:hover{
-	background-color: rgba(56, 56, 56, 0.377);
+.notNum:hover {
+	text-shadow: 3px 3px rgba(128, 128, 128, 0.555);
+	font-size: 24.5px;
 }
 #ac {
 	margin: auto;
 	grid-area: ac;
 }
-#actualText{
+#actualText {
 	font-size: 25px;
 	color: rgba(255, 255, 255, 0.637);
 }
-.aNum{
+.aNum {
 	transition: 0.5s;
 	padding: 45%;
 }
