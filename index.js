@@ -12,31 +12,21 @@ function identifyButton(e) {
 	const eventTargetValue = e.target.textContent;
 	console.log(eventTargetValue);
 	if (eventTargetValue === '=') {
-		if (!secondNum || !firstNum) {
-			finalResult.textContent = firstNum ?? 0;
-			return;
-		}
-		console.log(firstNum, secondNum, operator);
-		finalResult.textContent = operate(+firstNum, +secondNum, operator);
-		firstNum = finalResult.textContent;
-		secondNum = '';
-		writeOperator = false;
-		return;
+		return isEqual();
 	}
-	if (eventTargetValue === '.' && actualNums.textContent.includes('.')) {
-		return;
+	if (eventTargetValue === '.') {
+		return isDot();
 	}
 	if (eventTargetValue === 'C') {
-		return (actualNums.textContent = actualNums.textContent.slice(
-			0,
-			actualNums.textContent.length - 1
-		));
-	} else if (eventTargetValue === 'AC') {
+		return deleteValue();
+	}
+	if (eventTargetValue === 'AC') {
 		return clearNums();
 	}
+	isNum(eventTargetValue);
+}
+function isNum(eventTargetValue) {
 	if (isOperator(eventTargetValue) && writeOperator === true) {
-		console.log('Im in');
-		console.log(firstNum);
 		firstNum = operate(+firstNum, +secondNum, operator);
 		operator = eventTargetValue;
 		secondNum = '';
@@ -48,25 +38,54 @@ function identifyButton(e) {
 		firstNum += eventTargetValue;
 	} else secondNum += eventTargetValue;
 	actualNums.textContent += eventTargetValue;
-	console.log(firstNum, secondNum, operator, writeOperator);
+	console.log(firstNum.slice(0, 3), secondNum, operator, writeOperator);
+}
+function isDot() {
+	if (firstNum.includes('.') && !writeOperator) return;
+	if (secondNum.includes('.')) return;
+	isNum('.');
+}
+function isEqual() {
+	if (!secondNum || !firstNum) {
+		finalResult.textContent = !firstNum ? 0 : firstNum;
+		return;
+	}
+	console.log(firstNum, secondNum, operator);
+	finalResult.textContent = operate(+firstNum, +secondNum, operator);
+	firstNum = finalResult.textContent;
+	secondNum = '';
+	writeOperator = false;
+	return;
+}
+function deleteValue() {
+	if (writeOperator && secondNum !== '') {
+		secondNum = deleteNum(secondNum);
+	} else if (
+		isOperator(actualNums.textContent[actualNums.textContent.length - 1])
+	) {
+		operator = deleteNum(operator);
+		writeOperator = false;
+	} else firstNum = deleteNum(firstNum);
+	actualNums.textContent = deleteContent(actualNums);
+}
+function deleteNum(str) {
+	return str.slice(0, str.length - 1);
+}
+function deleteContent(str) {
+	return str.textContent.slice(0, str.textContent.length - 1);
 }
 function operate(firstNum, secondNum, operator) {
 	switch (operator) {
-		case '/': {
+		case '/':
 			return divide(firstNum, secondNum);
-		}
-		case '%': {
+		case '%':
 			return modulo(firstNum, secondNum);
-		}
-		case '+': {
+		case '+':
 			return sum(firstNum, secondNum);
-		}
-		case '-': {
+		case '-':
 			return subtract(firstNum, secondNum);
-		}
-		case 'X': {
+		case 'X':
 			return multiply(firstNum, secondNum);
-		}
 	}
 }
 function sum(a, b) {
@@ -90,7 +109,7 @@ function clearNums() {
 	secondNum = '';
 	operator = '';
 	writeOperator = false;
-	actualNums.textContent = '0';
+	actualNums.textContent = '';
 	finalResult.textContent = '0';
 }
 function isOperator(value) {
